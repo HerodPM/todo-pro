@@ -32,7 +32,7 @@ export default function AppShell() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [view, setView] = useState<ViewMode>('liste');
+  const [view, setView] = useState<ViewMode>('matrice');
   const [activeFilter, setActiveFilter] = useState('all');
 
   const [modalOpen, setModalOpen] = useState(false);
