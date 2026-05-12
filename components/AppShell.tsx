@@ -38,6 +38,7 @@ export default function AppShell() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [newTaskDefaults, setNewTaskDefaults] = useState<NewTaskDefaults>({});
+  const [lastCategoryId, setLastCategoryId] = useState<string | undefined>(undefined);
 
   // ─── Load data ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -84,7 +85,7 @@ export default function AppShell() {
   // ─── Task CRUD ──────────────────────────────────────────────────────────
   const openNewTask = (categoryId?: string, importance?: PriorityLevel, urgence?: PriorityLevel) => {
     setEditingTask(null);
-    setNewTaskDefaults({ categoryId, importance, urgence });
+    setNewTaskDefaults({ categoryId: categoryId ?? lastCategoryId, importance, urgence });
     setModalOpen(true);
   };
 
@@ -97,6 +98,7 @@ export default function AppShell() {
         const maxPos = tasks.filter((t) => t.category_id === data.category_id).length;
         const created = await createTask({ ...data, position: maxPos });
         setTasks((prev) => [...prev, created]);
+        setLastCategoryId(created.category_id);
       }
       setModalOpen(false);
       setEditingTask(null);
